@@ -40,7 +40,7 @@ Variaveis principais:
 
 - `PORT`: porta da API.
 - `BASE_URL`: URL base da aplicacao.
-- `MONGO_URI`: string de conexao do MongoDB.
+- `MONGO_URI`: string de conexao do MongoDB. Para MongoDB local/Compass, use `mongodb://127.0.0.1:27017/gestao_orcamento`.
 - `JWT_SECRET`: segredo usado para assinar tokens JWT.
 - `JWT_EXPIRES_IN`: tempo de expiracao do token.
 - `CORS_ORIGIN`: origem permitida para CORS.
