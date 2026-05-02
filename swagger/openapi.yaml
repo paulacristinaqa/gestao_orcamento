@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: Gestao Orcamento API
+  version: 1.0.0
+  description: API REST para gestao de orcamento com autenticacao JWT e MongoDB.
+servers:
+  - url: http://localhost:3000
+    description: Local
+tags:
+  - name: Health
+  - name: Auth
+paths:
+  /health:
+    get:
+      tags:
+        - Health
+      summary: Verifica disponibilidade da API
+      responses:
+        '200':
+          description: API online
+  /api/auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Cria um novo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Usuario criado
+        '409':
+          description: E-mail ja cadastrado
+  /api/auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Autentica usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login realizado
+        '401':
+          description: Credenciais invalidas
+  /api/auth/me:
+    get:
+      tags:
+        - Auth
+      summary: Retorna usuario autenticado
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Usuario autenticado
+        '401':
+          description: Token ausente ou invalido
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    RegisterRequest:
+      type: object
+      required:
+        - name
+        - email
+        - password
+      properties:
+        name:
+          type: string
+          example: Maria Silva
+        email:
+          type: string
+          format: email
+          example: maria@example.com
+        password:
+          type: string
+          format: password
+          minLength: 6
+          example: secret123
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: maria@example.com
+        password:
+          type: string
+          format: password
+          example: secret123
